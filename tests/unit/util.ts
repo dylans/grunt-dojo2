@@ -1,10 +1,9 @@
 import * as grunt from 'grunt';
 import * as path from 'path';
 import * as mockery from 'mockery';
-import * as _ from 'lodash';
-import { IRootRequire } from 'dojo/loader';
+import { RootRequire } from '@dojo/loader';
 
-declare const require: IRootRequire;
+declare const require: RootRequire;
 
 export interface MockList {
 	[key: string]: any;
@@ -103,8 +102,6 @@ export function loadTasks(mocks?: MockList, options?: TaskLoadingOptions) {
 		useCleanCache: true
 	});
 	mockery.resetCache();
-
-	mockery.registerMock('lodash', _);
 
 	// Registering this mock as it has problems with `regenerate` from regexpu-core.
 	mockery.registerMock('postcss-modules', function noop() {});

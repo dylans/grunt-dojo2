@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { deepAssign, duplicate } from '@dojo/core/lang';
 import ITask = grunt.task.ITask;
 
 export = function(grunt: IGrunt) {
@@ -46,11 +46,11 @@ export = function(grunt: IGrunt) {
 			tasks.push(`ts:${target}`);
 			// dev task cannot be configured outside of projects tsconfig
 			if (target !== 'dev') {
-				const targetTsconfig = _.cloneDeep(tsconfig);
+				const targetTsconfig = duplicate(tsconfig);
 				const targetDefaultOptions = defaultOptions[target] || {};
 				const targetTsOptions = tsOptions[target] || {};
 
-				_.merge(targetTsconfig, targetDefaultOptions, targetTsOptions);
+				deepAssign(targetTsconfig, targetDefaultOptions, targetTsOptions);
 				tsconfigFileName = `.tsconfig${target}.json`;
 				grunt.file.write(tsconfigFileName, JSON.stringify(targetTsconfig));
 				grunt.config.set(`clean.${target}Tsconfig`, { src: tsconfigFileName});
